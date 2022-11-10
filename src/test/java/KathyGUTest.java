@@ -14,8 +14,6 @@ public class KathyGUTest {
        4. Из выпадающего списка выбрать Paris, FR
        5. Подтвердить, что заголовок изменился на "Paris, FR" */
 
-
-
     @Test
 
     public void testH2TagText_WhenSearchingCityCountry() throws InterruptedException {
@@ -24,7 +22,7 @@ public class KathyGUTest {
 
         // Arrange:
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String cityName = "Paris";
         String expectedResult = "Paris, FR";
 
@@ -76,7 +74,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String expectedResultTitle = "https://openweathermap.org/guide";
         String expectedResultUrl = "OpenWeatherMap API guide - OpenWeatherMap";
 
@@ -114,7 +112,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String symbolFahrenheit = "°F";
 
         // Act
@@ -155,7 +153,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String textCookies = "We use cookies which are essential for the site to work. We also use "
                 + "non-essential cookies to help us improve our services. "
                 + "Any data collected is anonymised. You can allow all cookies or manage them individually.";
@@ -207,7 +205,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String textFaq = "FAQ";
         String textHowToStart = "How to start";
         String textAskQuestion = "Ask a question";
@@ -263,7 +261,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String expectedResul1 = "FAQ";
         String expectedResult2 = "How to start";
         String expectedResult3 = "Ask a question";
@@ -285,14 +283,13 @@ public class KathyGUTest {
         String actualResult2 = driver.findElement(By.xpath("//ul[@id = 'support-dropdown-menu']/li[2]")).getText();
         String actualResult3 = driver.findElement(By.xpath("//ul[@id = 'support-dropdown-menu']/li[3]")).getText();
 
-        // Act
+        // Assert
 
         Assert.assertEquals(actualResult1, expectedResul1);
         Assert.assertEquals(actualResult2, expectedResult2);
         Assert.assertEquals(actualResult3, expectedResult3);
 
         driver.quit();
-
     }
 
     /* TC_11_05
@@ -311,7 +308,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String email = "tester@test.com";
         String message = "Help me";
         String expectedResult = "reCAPTCHA verification failed, please try again.";
@@ -386,9 +383,6 @@ public class KathyGUTest {
       6. Подтвердить CAPTCHA
       7. Нажать кнопку Submit
       8. Подтвердить, что в поле Email пользователю будет показана ошибка “can't be blank” */
-
-
-
     @Test
     public void testErrorEmailAfterSubmit_WhenEmailFieldEmpty() throws InterruptedException {
 
@@ -397,7 +391,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String message = "Help me";
         String expectedResult = "can't be blank";
 
@@ -485,7 +479,7 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
+        String url = "https://openweathermap.org/";
         String symbolCelsius = "°C";
 
         // Act
@@ -518,6 +512,37 @@ public class KathyGUTest {
         driver.quit();
     }
 
+    // second way
+
+    @Test
+    public void testTemperatureFormatSelectionInCelsius() throws InterruptedException {
+
+        System.setProperty("webdriver.chrome.driver", "/Applications/ChromeDriver/chromedriver");
+        WebDriver driver = new ChromeDriver();
+
+        String url = "https://openweathermap.org/";
+        driver.get(url);
+        WebElement switchToFahrenheit = driver.findElement(
+                By.xpath("//div[@class='option'][text()='Imperial: °F, mph']")
+        );
+        Thread.sleep(7000);
+        switchToFahrenheit.click();
+        WebElement switchToCelsius = driver.findElement(
+                By.xpath("//div[@class='option'][text()='Metric: °C, m/s']")
+        );
+        switchToCelsius.click();
+        char expectedResult = 'C';
+        WebElement findCelsius = driver.findElement(
+                By.xpath("//span[@class='heading'][contains(text(),'C')]")
+        );
+        String result = findCelsius.getText();
+        char actualResult = result.charAt(result.length()-1);
+
+        Assert.assertEquals(actualResult,expectedResult);
+
+        driver.quit();
+    }
+
     /* TC_11_08
       1. Открыть базовую ссылку
       2. Нажать на лого компании
@@ -532,9 +557,8 @@ public class KathyGUTest {
 
         // Arrange
 
-        String url = "https://openweathermap.org";
-        String expectedResult = "https://openweathermap.org";
-
+        String url = "https://openweathermap.org/";
+        String expectedResult = "https://openweathermap.org/";
 
         // Act
 
@@ -545,7 +569,6 @@ public class KathyGUTest {
         WebElement logo = driver.findElement(
                 By.xpath("//img[@src='/themes/openweathermap/assets/img/logo_white_cropped.png']")
         );
-
         logo.click();
         Thread.sleep(2000);
 
@@ -565,21 +588,36 @@ public class KathyGUTest {
     //4.  Подтвердить, что вы перешли на страницу в ссылке которой содержатся слова “find” и “Rome”
     //5. Подтвердить, что в строке поиска на новой странице вписано слово “Rome”
 
+    @Test
+    public void test_FindRome() throws InterruptedException {
 
+        System.setProperty("webdriver.chrome.driver", "/Applications/ChromeDriver/chromedriver");
+        WebDriver driver = new ChromeDriver();
 
+        // Arrange
 
+        String url = "https://openweathermap.org/";
+        String city = "Rome";
 
+        // Act
 
+        driver.get(url);
+        Thread.sleep(8000);
 
+        driver.findElement(
+                By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']")
+        ).sendKeys(city + "\n");
 
+        // Assert
 
+        Assert.assertTrue(driver.getCurrentUrl().contains("find") && driver.getCurrentUrl().contains(city));
 
+        driver.quit();
+    }
     // TC_11_10
     //1.  Открыть базовую ссылку
     //2.  Нажать на пункт меню API
     //3.  Подтвердить, что на открывшейся странице пользователь видит 30 оранжевых кнопок
-
-
     @Test
     public void testDeskTopMenuClickAPIFind30Buttons1() throws InterruptedException {
 
@@ -605,9 +643,7 @@ public class KathyGUTest {
 
         Assert.assertEquals(actualResult, expectedResult);
         driver.quit();
-
     }
-
 }
 
 
